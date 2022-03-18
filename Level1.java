@@ -4,13 +4,32 @@ import java.util.ArrayList;
 
 public class Level1 {
 
-    public static boolean isAreaFill(int [][] area) {
-        for(int i=0; i<area.length; i++) {
-            for(int j=0; j<area[i].length; j++) {
-                if (area[i][j] == 0) return false;
+    public static int [] MadMax(int N, int [] Tele) {
+
+        boolean isSorted = false;
+        while(!isSorted) {
+            isSorted = true;
+            for (int i = 0; i < Tele.length-1; i++) {
+                if(Tele[i] > Tele[i+1]){
+                    isSorted = false;
+                    int buf = Tele[i];
+                    Tele[i] = Tele[i+1];
+                    Tele[i+1] = buf;
+                }
             }
         }
-        return true;
+
+        int [] res = new int[N];
+        for(int i=0; i<=N/2; i++) {
+            if(i == N/2)
+                res[N-1] = Tele[i];
+            else {
+                res[i] = Tele[i];
+                res[N / 2 + i] = Tele[N - i - 1];
+            }
+        }
+
+        return res;
     }
 
     public static int ConquestCampaign(int N, int M, int L, int [] battalion) {

@@ -1,8 +1,46 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class Level1 {
+
+    public static void bubbleSort(int [] arr) {
+
+        boolean isSorted = false;
+        while(!isSorted) {
+            isSorted = true;
+            for (int i = 0; i < arr.length-1; i++) {
+                if(arr[i] > arr[i+1]){
+                    isSorted = false;
+                    int buf = arr[i];
+                    arr[i] = arr[i+1];
+                    arr[i+1] = buf;
+                }
+            }
+        }
+    }
+
+    public static int [] SynchronizingTables(int N, int [] ids, int [] salary) {
+
+        int [] tmpIds = Arrays.copyOf(ids, N);
+
+        bubbleSort(tmpIds);
+        bubbleSort(salary);
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i=0; i<N; i++) {
+            map.put(tmpIds[i], salary[i]);
+        }
+
+        int [] res = new int[N];
+        for(int i=0; i<N; i++) {
+            res[i] = map.get( ids[i]);
+        }
+
+        return res;
+    }
 
     public static int [] MadMax(int N, int [] Tele) {
 

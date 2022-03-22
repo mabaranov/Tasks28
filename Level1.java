@@ -46,8 +46,7 @@ public class Level1 {
                 {
                     if(start == end)
                         end = j;
-
-                    i = end;
+                    
                     break;
                 }
 
@@ -55,6 +54,7 @@ public class Level1 {
                     end = j;
             }
             arr.add(s.substring(start, end));
+            i = end-1;
         }
 
         return arr.toArray(new String[0]);

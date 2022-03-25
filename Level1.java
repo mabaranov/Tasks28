@@ -33,12 +33,12 @@ public class Level1 {
         }
 
         String res = "";
-        for(int i=0; i<x; i++) {
-            for(int j=0; j<y; j++) {
+        for(int i=0; i<y; i++) {
+            for(int j=0; j<x; j++) {
                 if( matr[j][i] != ' ')
                     res += matr[j][i];
             }
-            res += ' ';
+            if(i < y-1) res += ' ';
         }
 
         return res;
@@ -62,8 +62,8 @@ public class Level1 {
 
         char [][] matr = new char[x][y];
         int index = 0;
-        for(int i=0; i<x; i++) {
-            for(int j=0; j<y; j++) {
+        for(int i=0; i<y; i++) {
+            for(int j=0; j<x; j++) {
                 if( index < s.length() )
                     if( s.charAt(index) == ' ') {
                         matr[j][i] = ' ';

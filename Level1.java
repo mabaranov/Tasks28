@@ -7,11 +7,12 @@ import java.util.HashMap;
 public class Level1 {
 
     public static String MassVote(int N, int [] Votes) {
-        
+
         int sum = 0;
         int max = Votes[0];
+        int candidate = 1;
         for(int i=0; i<Votes.length; i++) {
-            if(max < Votes[i]) max = Votes[i];
+            if(max < Votes[i]) { max = Votes[i]; candidate=i+1; }
             sum += Votes[i];
         }
 
@@ -29,10 +30,10 @@ public class Level1 {
             per = tmp*1.0/1000;
 
         if(countWinner == 1 && per > 50)
-            return "majority winner 1";
+            return "majority winner " + candidate;
 
         if(countWinner == 1)
-            return "minority winner 2";
+            return "minority winner " + candidate;
 
         return "no winner";
     }

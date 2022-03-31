@@ -6,35 +6,27 @@ import java.util.HashMap;
 
 public class Level1 {
 
-    public static String MassVote(int N, int [] Votes) {
+    public static int [] UFO(int N, int [] data, boolean octal) {
 
-        int sum = 0;
-        int max = Votes[0];
-        int candidate = 1;
-        for(int i=0; i<Votes.length; i++) {
-            if(max < Votes[i]) { max = Votes[i]; candidate=i+1; }
-            sum += Votes[i];
+        int base = octal ? 8 : 16;
+
+        int [] res = new int[N];
+
+        for(int i=0; i<N; i++) {
+
+            int nBase = data[i];
+            int n10 = 0;
+            int pow = 0;
+            while( nBase >= 1 ) {
+                int n = nBase % 10;
+                n10 += n * Math.pow(base, pow);
+                nBase /= 10;
+                pow += 1;
+            }
+
+            res[i] = n10;
         }
 
-        int countWinner = 0;
-        for(int i=0; i<Votes.length; i++) {
-            if(max == Votes[i]) countWinner++;
-        }
-
-        double per = max*100.0/sum;
-
-        int tmp = (int)(per*1000);
-        if(per*1000 - tmp >= 0.5)
-            per = (tmp+1)/1000;
-        else
-            per = tmp*1.0/1000;
-
-        if(countWinner == 1 && per > 50)
-            return "majority winner " + candidate;
-
-        if(countWinner == 1)
-            return "minority winner " + candidate;
-
-        return "no winner";
+        return res;
     }
  }

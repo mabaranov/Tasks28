@@ -6,27 +6,62 @@ import java.util.HashMap;
 
 public class Level1 {
 
-    public static int [] UFO(int N, int [] data, boolean octal) {
+    public static int Unmanned(int L, int N, int [][] track) {
 
-        int base = octal ? 8 : 16;
+        int time = 0;
 
-        int [] res = new int[N];
+        for(int i=0; i<=N; i++) {
 
-        for(int i=0; i<N; i++) {
-
-            int nBase = data[i];
-            int n10 = 0;
-            int pow = 0;
-            while( nBase >= 1 ) {
-                int n = nBase % 10;
-                n10 += n * Math.pow(base, pow);
-                nBase /= 10;
-                pow += 1;
+            if(i == N) {
+                time += L-track[i-1][0];
+                break;
             }
 
-            res[i] = n10;
+            int [] pCur = track[i];
+            int [] pPrev = {0,0,0};
+            if(i>0) pPrev = track[i-1];
+            time += pCur[0]-pPrev[0];
+
+
+            boolean isRed = true;
+            int t = time;
+            while(t > 0) {
+                if(isRed) {
+                    t -= pCur[1];
+                    isRed = false;
+                } else {
+                    t -= pCur[2];
+                    isRed = true;
+                }
+            }
+            if(isRed == false) time = time - t;
         }
 
-        return res;
+        return time;
     }
+
+
+//    public static int [] UFO(int N, int [] data, boolean octal) {
+//
+//        int base = octal ? 8 : 16;
+//
+//        int [] res = new int[N];
+//
+//        for(int i=0; i<N; i++) {
+//
+//            int nBase = data[i];
+//            int n10 = 0;
+//            int pow = 0;
+//            while( nBase >= 1 ) {
+//                int n = nBase % 10;
+//                n10 += n * Math.pow(base, pow);
+//                nBase /= 10;
+//                pow += 1;
+//            }
+//
+//            res[i] = n10;
+//        }
+//
+//        return res;
+//    }
  }

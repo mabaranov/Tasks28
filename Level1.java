@@ -19,9 +19,15 @@ public class Level1 {
 
             int [] pCur = track[i];
             int [] pPrev = {0,0,0};
-            if(i>0) pPrev = track[i-1];
-            time += pCur[0]-pPrev[0];
+            if(i>0)
+                pPrev = track[i-1];
 
+            if(pCur[0] > L) {
+                time += L - pPrev[0];
+                break;
+            }
+
+            time += pCur[0]-pPrev[0];
 
             boolean isRed = true;
             int t = time;

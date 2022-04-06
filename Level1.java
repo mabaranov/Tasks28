@@ -6,30 +6,25 @@ import java.util.HashMap;
 
 public class Level1 {
 
-    private static void bubble_sort(int N, int [] price) {
+    public static boolean LineAnalysis(String line) {
 
-        for(int i=N-1; i>0; i--) {
-            for(int j=0; j<i; j++) {
-                if(price[j] < price[j+1]) {
-                    int tmp = price[j];
-                    price[j] = price[j+1];
-                    price[j+1] = tmp;
-                }
-            }
+        int size = line.length();
+
+        if (line.charAt(size-1) != '*') return false;
+
+        boolean even = (size % 2 == 0 ? true : false);
+        int i1 = (even ? size/2-1 : size/2-1);
+        int i2 = (even ? i1 : i1+2);
+
+        for (int i=i1, j=i2; i>=0; i--, j++) {
+            char c1 = line.charAt(i);
+            if (c1 != '*' && c1 != '.') return false;
+            char c2 = line.charAt(j);
+            if (c2 != '*' && c2 != '.') return false;
+            if (c1 != c2) return false;
         }
 
+        return true;
     }
-
-    public static int MaximumDiscount(int N, int [] price) {
-
-        bubble_sort(N, price);
-
-        int discount = 0;
-        for (int i=1; i<=N; i++) {
-            if (i % 3 == 0)
-                discount += price[i-1];
-        }
-
-        return discount;
-    }
+    
   }

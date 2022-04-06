@@ -6,25 +6,50 @@ import java.util.HashMap;
 
 public class Level1 {
 
-    public static boolean LineAnalysis(String line) {
+    private static int Min(int a, int b, int c) {
+        if (a < b && a < c) return a;
+        else if ( b < c) return b;
+        return c;
+    }
 
-        int size = line.length();
+    private static void ShiftLeft(int n, int [] arr) {
 
-        if (line.charAt(size-1) != '*') return false;
+        int tmp = arr[0];
 
-        boolean even = (size % 2 == 0 ? true : false);
-        int i1 = (even ? size/2-1 : size/2-1);
-        int i2 = (even ? i1 : i1+2);
+        for (int i=1; i<n; i++) {
+            arr[i-1] = arr[i];
+        }
 
-        for (int i=i1, j=i2; i>=0; i--, j++) {
-            char c1 = line.charAt(i);
-            if (c1 != '*' && c1 != '.') return false;
-            char c2 = line.charAt(j);
-            if (c2 != '*' && c2 != '.') return false;
-            if (c1 != c2) return false;
+        arr[n-1] = tmp;
+    }
+
+    public static boolean MisterRobot(int N, int [] data) {
+
+        for (int j=0; j<N/3+1; j++) {
+            for (int i = 1; i < N - 1; i++) {
+
+                if (data[i - 1] < data[i] && data[i] < data[i+1]) continue;
+
+                int[] tmp = new int[]{data[i - 1], data[i], data[i + 1]};
+
+                int min = Min(data[i - 1], data[i], data[i + 1]);
+
+                while (min != tmp[0]) {
+                    ShiftLeft(tmp.length, tmp);
+                }
+
+                data[i-1] = tmp[0];
+                data[i] = tmp[1];
+                data[i+1] = tmp[2];
+            }
+        }
+
+        boolean res = false;
+
+        for (int i=1; i<N; i++) {
+            if (data[i] < data[i-1]) return false;
         }
 
         return true;
     }
-    
   }

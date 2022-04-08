@@ -3,53 +3,67 @@ package com.company;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Level1 {
 
-    private static int Min(int a, int b, int c) {
-        if (a < b && a < c) return a;
-        else if ( b < c) return b;
-        return c;
-    }
+    public static String [] ShopOLAP(int N, String [] items) {
 
-    private static void ShiftLeft(int n, int [] arr) {
+        HashMap<String, Integer> mapSales = new HashMap<String, Integer>();
 
-        int tmp = arr[0];
+        for (int i=0; i<N; i++)
+        {
+            String str = items[i];
+            int indexSeparator = str.indexOf(' ');
 
-        for (int i=1; i<n; i++) {
-            arr[i-1] = arr[i];
+            String product = str.substring(0, indexSeparator);
+            int count = Integer.valueOf( str.substring(indexSeparator+1) );
+
+            if (!mapSales.containsKey(product))
+                mapSales.put(product, 0);
+
+            int val = mapSales.get(product);
+            mapSales.put(product, val+count);
         }
 
-        arr[n-1] = tmp;
-    }
+        ArrayList<String> listProducts = new ArrayList<String>();
+        ArrayList<Integer> listCounts = new ArrayList<Integer>();
 
-    public static boolean MisterRobot(int N, int [] data) {
+        for (Map.Entry<String, Integer> e: mapSales.entrySet())
+        {
+            String key = e.getKey();
+            Integer value = e.getValue();
+            int count = listCounts.size();
 
-        for (int j=0; j<N/3+1; j++) {
-            for (int i = 1; i < N - 1; i++) {
-
-                if (data[i - 1] < data[i] && data[i] < data[i+1]) continue;
-
-                int[] tmp = new int[]{data[i - 1], data[i], data[i + 1]};
-
-                int min = Min(data[i - 1], data[i], data[i + 1]);
-
-                while (min != tmp[0]) {
-                    ShiftLeft(tmp.length, tmp);
+            for (int i = 0; i <= count; i++)
+            {
+                if (i == count)
+                {
+                    listProducts.add(key);
+                    listCounts.add(value);
                 }
-
-                data[i-1] = tmp[0];
-                data[i] = tmp[1];
-                data[i+1] = tmp[2];
+                if (value == listCounts.get(i)
+                    && key.compareTo(listProducts.get(i)) < 0)
+                {
+                    listProducts.add(i, key);
+                    listCounts.add(i, value);
+                    break;
+                }
+                if (value > listCounts.get(i))
+                {
+                    listProducts.add(i, key);
+                    listCounts.add(i, value);
+                    break;
+                }
             }
         }
 
-        boolean res = false;
-
-        for (int i=1; i<N; i++) {
-            if (data[i] < data[i-1]) return false;
+        String [] res = new String[listProducts.size()];
+        for (int i=0; i<listProducts.size(); i++)
+        {
+            res[i] = listProducts.get(i) + " " + listCounts.get(i);
         }
 
-        return true;
+        return res;
     }
-  }
+}

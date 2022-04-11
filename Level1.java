@@ -7,63 +7,95 @@ import java.util.Map;
 
 public class Level1 {
 
-    public static String [] ShopOLAP(int N, String [] items) {
+    private static ArrayList<String> listOperation = new ArrayList<>();
+    private static ArrayList<String> listResults = new ArrayList<>();
+    private static int curIndex = -1;
+    private static boolean prevOperationUndo = false;
 
-        HashMap<String, Integer> mapSales = new HashMap<String, Integer>();
+    public static String BastShoe(String command)
+    {
+        String operation = command;
+        String parameter = "";
 
-        for (int i=0; i<N; i++)
-        {
-            String str = items[i];
-            int indexSeparator = str.indexOf(' ');
-
-            String product = str.substring(0, indexSeparator);
-            int count = Integer.valueOf( str.substring(indexSeparator+1) );
-
-            if (!mapSales.containsKey(product))
-                mapSales.put(product, 0);
-
-            int val = mapSales.get(product);
-            mapSales.put(product, val+count);
+        int sep = command.indexOf(' ');
+        if (sep != -1) {
+            operation = command.substring(0, sep);
+            parameter = command.substring(sep + 1);
         }
 
-        ArrayList<String> listProducts = new ArrayList<String>();
-        ArrayList<Integer> listCounts = new ArrayList<Integer>();
-
-        for (Map.Entry<String, Integer> e: mapSales.entrySet())
-        {
-            String key = e.getKey();
-            Integer value = e.getValue();
-            int count = listCounts.size();
-
-            for (int i = 0; i <= count; i++)
-            {
-                if (i == count)
-                {
-                    listProducts.add(key);
-                    listCounts.add(value);
-                }
-                if (value == listCounts.get(i)
-                    && key.compareTo(listProducts.get(i)) < 0)
-                {
-                    listProducts.add(i, key);
-                    listCounts.add(i, value);
-                    break;
-                }
-                if (value > listCounts.get(i))
-                {
-                    listProducts.add(i, key);
-                    listCounts.add(i, value);
-                    break;
-                }
-            }
+        if (prevOperationUndo && (operation.equals("1") || operation.equals("2"))) {
+            String tOperation = listOperation.get(curIndex);
+            String tResults = listResults.get(curIndex);
+            listOperation.clear();
+            listResults.clear();
+            listOperation.add(tOperation);
+            listResults.add(tResults);
+            curIndex = 0;
         }
 
-        String [] res = new String[listProducts.size()];
-        for (int i=0; i<listProducts.size(); i++)
-        {
-            res[i] = listProducts.get(i) + " " + listCounts.get(i);
+        prevOperationUndo = false;
+
+        if (operation.equals("1")) {
+            String res = "";
+            if (curIndex != -1)
+                res = listResults.get(curIndex);
+            res += parameter;
+            listOperation.add(operation);
+            listResults.add(res);
+            curIndex += 1;
+            return res;
+        }
+        if (operation.equals("2")) {
+            String res = "";
+            if (curIndex != -1)
+                res = listResults.get(curIndex);
+
+            int start = 0;
+            int end = res.length() - Integer.valueOf(parameter);
+
+            if (end < 0) end = 0;
+
+            res = res.substring(start, end);
+
+            listOperation.add(command);
+            listResults.add(res);
+            curIndex += 1;
+            return res;
+        }
+        if (operation.equals("3")) {
+            String res = "";
+            if (curIndex != -1)
+                res = listResults.get(curIndex);
+
+            int i = Integer.valueOf(parameter);
+            if (i<0 || i>=res.length())
+                return "";
+
+            return "" + res.charAt(i);
+        }
+        if (operation.equals("4")) {
+            String res = "";
+            curIndex -= 1;
+            if (curIndex < 0)
+                curIndex = 0;
+            if (curIndex < stopIndex)
+                curIndex = stopIndex;
+
+            res = listResults.get(curIndex);
+            prevOperationUndo = true;
+            return res;
+        }
+        if (operation.equals("5")) {
+            String res = "";
+            curIndex += 1;
+            if (curIndex >= listOperation.size())
+                curIndex = listOperation.size()-1;
+
+            res = listResults.get(curIndex);
+
+            return res;
         }
 
-        return res;
+        return command;
     }
 }

@@ -78,8 +78,6 @@ public class Level1 {
             curIndex -= 1;
             if (curIndex < 0)
                 curIndex = 0;
-            if (curIndex < stopIndex)
-                curIndex = stopIndex;
 
             res = listResults.get(curIndex);
             prevOperationUndo = true;

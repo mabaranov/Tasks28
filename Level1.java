@@ -16,16 +16,7 @@ public class Level1 {
             }
         }
     }
-
-    private static void delNearby(int i, int j, int H, int W, int [][] tree)
-    {
-        if (i-1 >= 0) tree[i-1][j] = 0;
-        if (i+1 < H) tree[i+1][j] = 0;
-        if (j-1 >= 0) tree[i][j-1] = 0;
-        if (j+1 < W) tree[i][j+1] = 0;
-        tree[i][j] = 0;
-    }
-
+    
     private static void addOddYear(int H, int W, int [][] tree)
     {
         for (int i=0; i<H; i++)
@@ -36,11 +27,25 @@ public class Level1 {
             }
         }
 
+        int [][] arrCopy = new int[H][W];
+        for (int i=0; i<H; i++) {
+            for (int j=0; j<W; j++)
+            {
+                arrCopy[i][j] = tree[i][j];
+            }
+        }
+
         for (int i=0; i<H; i++)
         {
             for (int j=0; j<W; j++)
             {
-                if (tree[i][j] >= 3) delNearby(i, j, H, W, tree);
+                if (arrCopy[i][j] < 3) continue;
+
+                tree[i][j] = 0;
+                if (i-1 >= 0) tree[i-1][j] = 0;
+                if (i+1 < H) tree[i+1][j] = 0;
+                if (j-1 >= 0) tree[i][j-1] = 0;
+                if (j+1 < W) tree[i][j+1] = 0;
             }
         }
     }

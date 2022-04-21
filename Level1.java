@@ -1,98 +1,151 @@
 package com.company;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Level1 {
-
-    public static void matrixTurnToOneStep(int [][] arr, int M, int N)
+    private static int findMaxValue(int [] arr, int N)
     {
-        int start = 0;
-        int endRow = N-1;
-        int endCol = M-1;
-        int count = 0;
+        int max = 0;
 
-        while (count < N*M) {
-            ArrayList<Integer> t = new ArrayList<>();
-            for (int c = start; c <= endRow && count<N*M; ++c) {
-                t.add(arr[start][c]);
-                count++;
-            }
-            for (int c = start + 1; c <= endCol-start && count<N*M; ++c) {
-                t.add(arr[c][endRow]);
-                count++;
-            }
-            for (int c = endRow - 1; c >= start && count<N*M; --c) {
-                t.add(arr[endCol-start][c]);
-                count++;
-            }
-            for (int c = endCol - 1; c >= start + 1 && count<N*M; --c) {
-                t.add(arr[c][start]);
-                count++;
-            }
-
-            for (int i=t.size()-2, last=t.get(t.size()-1); i>=0; i--)
-            {
-                t.set(i+1, t.get(i));
-                if (i == 0) t.set(0, last);
-            }
-
-            int start1 = start;
-            int endRow1 = endRow;
-            int ch = 0;
-            int tCount = t.size();
-
-                for (int c = start1; c <= endRow1 && ch < tCount; ++c) {
-                    arr[start1][c] = t.get(ch);
-                    ch++;
-                }
-                for (int c = start1 + 1; c <= endCol - start1 && ch < tCount; ++c) {
-                    arr[c][endRow1] = t.get(ch);
-                    ch++;
-                }
-                for (int c = endRow1 - 1; c >= start1 && ch < tCount; --c) {
-                    arr[endCol - start1][c] = t.get(ch);
-                    ch++;
-                }
-                for (int c = endCol - 1; c >= start1 + 1 && ch < tCount; --c) {
-                    arr[c][start1] = t.get(ch);
-                    ch++;
-                }
-
-
-            endRow -= 1;
-            start += 1;
+        for (int i=0; i<N; i++)
+        {
+            if (i == 0) max = arr[i];
+            if (arr[i] > max) max = arr[i];
         }
+
+        return max;
     }
 
-    public static void MatrixTurn(String Matrix[], int M, int N, int T)
+    private static int [] transform(int [] arr, int N)
     {
-        int [][] arr = new int[M][N];
-
-        for (int i=0; i<M; i++)
+        ArrayList<Integer> B = new ArrayList<>();
+        for (int i=0; i<N; i++)
         {
-            for (int j=0; j<N; j++)
+            for (int j=0; j<N-i-1; j++)
             {
-                arr[i][j] = Character.getNumericValue(Matrix[i].charAt(j));
+                int k = i+j;
+                int max = findMaxValue(Arrays.copyOfRange(arr, j,k+1), k+1-j);
+                B.add(max);
             }
         }
 
-        for (int i=0; i<T; i++)
+        int [] k = new int[B.size()];
+        for (int i=0; i<B.size(); i++)
         {
-            matrixTurnToOneStep(arr, M, N);
+            k[i] = B.get(i);
         }
-
-        for (int i=0; i<M; i++)
-        {
-            String t = "";
-            for (int j=0; j<N; j++)
-            {
-               t += String.valueOf(arr[i][j]);
-            }
-            Matrix[i] = t;
-        }
+        return k;
     }
+
+    public static boolean TransformTransform(int A[], int N)
+    {
+        int [] A1 = transform(A, N);
+        int [] A2 = transform(A1, A1.length);
+
+        int sum=0;
+        for (int i=0; i<A2.length; i++)
+        {
+            sum += A2[i];
+        }
+
+        boolean res = false;
+
+        if (sum%2 == 0) res = true;
+
+        return res;
+    }
+
+//    public static void matrixTurnToOneStep(int [][] arr, int M, int N)
+//    {
+//        int start = 0;
+//        int endRow = N-1;
+//        int endCol = M-1;
+//        int count = 0;
+//
+//        while (count < N*M) {
+//            ArrayList<Integer> t = new ArrayList<>();
+//            for (int c = start; c <= endRow && count<N*M; ++c) {
+//                t.add(arr[start][c]);
+//                count++;
+//            }
+//            for (int c = start + 1; c <= endCol-start && count<N*M; ++c) {
+//                t.add(arr[c][endRow]);
+//                count++;
+//            }
+//            for (int c = endRow - 1; c >= start && count<N*M; --c) {
+//                t.add(arr[endCol-start][c]);
+//                count++;
+//            }
+//            for (int c = endCol - 1; c >= start + 1 && count<N*M; --c) {
+//                t.add(arr[c][start]);
+//                count++;
+//            }
+//
+//            for (int i=t.size()-2, last=t.get(t.size()-1); i>=0; i--)
+//            {
+//                t.set(i+1, t.get(i));
+//                if (i == 0) t.set(0, last);
+//            }
+//
+//            int start1 = start;
+//            int endRow1 = endRow;
+//            int ch = 0;
+//            int tCount = t.size();
+//
+//                for (int c = start1; c <= endRow1 && ch < tCount; ++c) {
+//                    arr[start1][c] = t.get(ch);
+//                    ch++;
+//                }
+//                for (int c = start1 + 1; c <= endCol - start1 && ch < tCount; ++c) {
+//                    arr[c][endRow1] = t.get(ch);
+//                    ch++;
+//                }
+//                for (int c = endRow1 - 1; c >= start1 && ch < tCount; --c) {
+//                    arr[endCol - start1][c] = t.get(ch);
+//                    ch++;
+//                }
+//                for (int c = endCol - 1; c >= start1 + 1 && ch < tCount; --c) {
+//                    arr[c][start1] = t.get(ch);
+//                    ch++;
+//                }
+//
+//
+//            endRow -= 1;
+//            start += 1;
+//        }
+//    }
+//
+//    public static void MatrixTurn(String Matrix[], int M, int N, int T)
+//    {
+//        int [][] arr = new int[M][N];
+//
+//        for (int i=0; i<M; i++)
+//        {
+//            for (int j=0; j<N; j++)
+//            {
+//                arr[i][j] = Character.getNumericValue(Matrix[i].charAt(j));
+//            }
+//        }
+//
+//        for (int i=0; i<T; i++)
+//        {
+//            matrixTurnToOneStep(arr, M, N);
+//        }
+//
+//        for (int i=0; i<M; i++)
+//        {
+//            String t = "";
+//            for (int j=0; j<N; j++)
+//            {
+//               t += String.valueOf(arr[i][j]);
+//            }
+//            Matrix[i] = t;
+//        }
+//    }
 
 //    private static void addEvenYear(int H, int W, int [][] tree)
 //    {

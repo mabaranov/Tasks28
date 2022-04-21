@@ -23,12 +23,13 @@ public class Level1 {
     private static int [] transform(int [] arr, int N)
     {
         ArrayList<Integer> B = new ArrayList<>();
-        for (int i=0; i<N; i++)
+        for (int i=0; i<=N-1; i++)
         {
-            for (int j=0; j<N-i-1; j++)
+            for (int j=0; j<=N-i-1; j++)
             {
                 int k = i+j;
-                int max = findMaxValue(Arrays.copyOfRange(arr, j,k+1), k+1-j);
+                int [] t = Arrays.copyOfRange(arr, j,k+1);
+                int max = findMaxValue(t, t.length);
                 B.add(max);
             }
         }

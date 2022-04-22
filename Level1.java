@@ -7,58 +7,106 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Level1 {
-    private static int findMaxValue(int [] arr, int N)
+
+    public static boolean white_walkers(String village)
     {
-        int max = 0;
+        if (village == "") return false;
 
-        for (int i=0; i<N; i++)
+        //char [] tempDigits = new char[] {'0','1','2','3','4','5','6','7','8','9'};
+        HashMap<Character, Boolean> tempDigits = new HashMap<>();
+        tempDigits.put('0', true);
+        tempDigits.put('1', true);
+        tempDigits.put('2', true);
+        tempDigits.put('3', true);
+        tempDigits.put('4', true);
+        tempDigits.put('5', true);
+        tempDigits.put('6', true);
+        tempDigits.put('7', true);
+        tempDigits.put('8', true);
+        tempDigits.put('9', true);
+
+        char target = '=';
+        int countTarget = 0;
+        int leftDigits = -1;
+
+        for (int i=0; i<village.length(); i++)
         {
-            if (i == 0) max = arr[i];
-            if (arr[i] > max) max = arr[i];
-        }
-
-        return max;
-    }
-
-    private static int [] transform(int [] arr, int N)
-    {
-        ArrayList<Integer> B = new ArrayList<>();
-        for (int i=0; i<=N-1; i++)
-        {
-            for (int j=0; j<=N-i-1; j++)
+            if (tempDigits.containsKey(village.charAt(i)) && leftDigits == -1)
             {
-                int k = i+j;
-                int [] t = Arrays.copyOfRange(arr, j,k+1);
-                int max = findMaxValue(t, t.length);
-                B.add(max);
+                leftDigits = i;
+                continue;
+            }
+
+            if (village.charAt(i) == target && leftDigits != -1) countTarget += 1;
+
+            if (tempDigits.containsKey(village.charAt(i)) && leftDigits != -1)
+            {
+                if (countTarget == 3
+                        && (( Character.getNumericValue(village.charAt(i))
+                            + Character.getNumericValue(village.charAt(leftDigits))) == 10 )
+                )
+                    return true;
+
+                leftDigits = i;
+                countTarget = 0;
             }
         }
 
-        int [] k = new int[B.size()];
-        for (int i=0; i<B.size(); i++)
-        {
-            k[i] = B.get(i);
-        }
-        return k;
+        return false;
     }
 
-    public static boolean TransformTransform(int A[], int N)
-    {
-        int [] A1 = transform(A, N);
-        int [] A2 = transform(A1, A1.length);
-
-        int sum=0;
-        for (int i=0; i<A2.length; i++)
-        {
-            sum += A2[i];
-        }
-
-        boolean res = false;
-
-        if (sum%2 == 0) res = true;
-
-        return res;
-    }
+//    private static int findMaxValue(int [] arr, int N)
+//    {
+//        int max = 0;
+//
+//        for (int i=0; i<N; i++)
+//        {
+//            if (i == 0) max = arr[i];
+//            if (arr[i] > max) max = arr[i];
+//        }
+//
+//        return max;
+//    }
+//
+//    private static int [] transform(int [] arr, int N)
+//    {
+//        ArrayList<Integer> B = new ArrayList<>();
+//        for (int i=0; i<=N-1; i++)
+//        {
+//            for (int j=0; j<=N-i-1; j++)
+//            {
+//                int k = i+j;
+//                int [] t = Arrays.copyOfRange(arr, j,k+1);
+//                int max = findMaxValue(t, t.length);
+//                B.add(max);
+//            }
+//        }
+//
+//        int [] k = new int[B.size()];
+//        for (int i=0; i<B.size(); i++)
+//        {
+//            k[i] = B.get(i);
+//        }
+//        return k;
+//    }
+//
+//    public static boolean TransformTransform(int A[], int N)
+//    {
+//        int [] A1 = transform(A, N);
+//        int [] A2 = transform(A1, A1.length);
+//
+//        int sum=0;
+//        for (int i=0; i<A2.length; i++)
+//        {
+//            sum += A2[i];
+//        }
+//
+//        boolean res = false;
+//
+//        if (sum%2 == 0) res = true;
+//
+//        return res;
+//    }
 
 //    public static void matrixTurnToOneStep(int [][] arr, int M, int N)
 //    {

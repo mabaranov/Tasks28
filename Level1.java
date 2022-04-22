@@ -28,7 +28,7 @@ public class Level1 {
         char target = '=';
         int countTarget = 0;
         int leftDigits = -1;
-
+        boolean seq = false;
         for (int i=0; i<village.length(); i++)
         {
             if (tempDigits.containsKey(village.charAt(i)) && leftDigits == -1)
@@ -37,20 +37,22 @@ public class Level1 {
                 continue;
             }
 
-            if (village.charAt(i) == target && leftDigits != -1) countTarget += 1;
+            //if (village.charAt(i) == target && leftDigits != -1 && seq) countTarget += 1;
+
 
             if (tempDigits.containsKey(village.charAt(i)) && leftDigits != -1)
             {
-                if (countTarget == 3
-                        && (( Character.getNumericValue(village.charAt(i))
-                            + Character.getNumericValue(village.charAt(leftDigits))) == 10 )
-                )
+                String subSt = village.substring(leftDigits, i+1);
+//                if ((Character.getNumericValue(subSt.charAt(0))
+//                        + Character.getNumericValue(subSt.charAt(subSt.length()-1))) == 10
+                if ( subSt.contains("==="))
                     return true;
 
                 leftDigits = i;
-                countTarget = 0;
+                //countTarget = 0;
             }
         }
+
 
         return false;
     }

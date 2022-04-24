@@ -8,54 +8,123 @@ import java.util.Map;
 
 public class Level1 {
 
-    public static boolean white_walkers(String village)
+    private static void swap(int n1, int n2)
     {
-        if (village == "") return false;
+        int t = n1;
+        n1 = n2;
+        n2 = t;
+    }
 
-        //char [] tempDigits = new char[] {'0','1','2','3','4','5','6','7','8','9'};
-        HashMap<Character, Boolean> tempDigits = new HashMap<>();
-        tempDigits.put('0', true);
-        tempDigits.put('1', true);
-        tempDigits.put('2', true);
-        tempDigits.put('3', true);
-        tempDigits.put('4', true);
-        tempDigits.put('5', true);
-        tempDigits.put('6', true);
-        tempDigits.put('7', true);
-        tempDigits.put('8', true);
-        tempDigits.put('9', true);
-
-        char target = '=';
-        int countTarget = 0;
-        int leftDigits = -1;
-        boolean seq = false;
-        for (int i=0; i<village.length(); i++)
+    private static boolean priem2(int arr[], int N)
+    {
+        for (int i=0; i<N; i++)
         {
-            if (tempDigits.containsKey(village.charAt(i)) && leftDigits == -1)
+            for (int j=i+1; j<N; j++)
             {
-                leftDigits = i;
-                continue;
-            }
+                if (arr[i] < arr[j]) continue;
 
-            //if (village.charAt(i) == target && leftDigits != -1 && seq) countTarget += 1;
-
-
-            if (tempDigits.containsKey(village.charAt(i)) && leftDigits != -1)
-            {
-                String subSt = village.substring(leftDigits, i+1);
-//                if ((Character.getNumericValue(subSt.charAt(0))
-//                        + Character.getNumericValue(subSt.charAt(subSt.length()-1))) == 10
-                if ( subSt.contains("==="))
+                //swap(arr[i], arr[j]);
+                int t = arr[i];
+                arr[i] = arr[j];
+                arr[j] = t;
+                if (isSorted(arr, N))
                     return true;
-
-                leftDigits = i;
-                //countTarget = 0;
+                //swap(arr[i], arr[j]);
+                t = arr[i];
+                arr[i] = arr[j];
+                arr[j] = t;
             }
         }
+        return false;
+    }
 
+    private static boolean priem1(int arr[], int N)
+    {
+        for (int i=0; i<N/2; i++)
+        {
+            int t = arr[N-i-1];
+            arr[N-i-1] = arr[i];
+            arr[i] = t;
+        }
+
+        if (isSorted(arr, N)) return true;
 
         return false;
     }
+
+    private static boolean isSorted(int arr[], int N)
+    {
+        for (int i=1; i<N; i++)
+        {
+            if (arr[i] < arr[i-1]) return false;
+        }
+        return true;
+    }
+
+    public static boolean Football(int F[], int N)
+    {
+        int copy1[] = new int[N];
+        int copy2[] = new int[N];
+        for (int i=0; i<N; i++)
+        {
+            copy1[i] = F[i];
+            copy2[i] = F[i];
+        }
+
+        if (priem1(copy1, N)) return true;
+        if (priem2(copy2, N)) return true;
+
+        return false;
+    }
+
+//    public static boolean white_walkers(String village)
+//    {
+//        if (village == "") return false;
+//
+//        //char [] tempDigits = new char[] {'0','1','2','3','4','5','6','7','8','9'};
+//        HashMap<Character, Boolean> tempDigits = new HashMap<>();
+//        tempDigits.put('0', true);
+//        tempDigits.put('1', true);
+//        tempDigits.put('2', true);
+//        tempDigits.put('3', true);
+//        tempDigits.put('4', true);
+//        tempDigits.put('5', true);
+//        tempDigits.put('6', true);
+//        tempDigits.put('7', true);
+//        tempDigits.put('8', true);
+//        tempDigits.put('9', true);
+//
+//        char target = '=';
+//        int countTarget = 0;
+//        int leftDigits = -1;
+//        boolean seq = false;
+//        for (int i=0; i<village.length(); i++)
+//        {
+//            if (tempDigits.containsKey(village.charAt(i)) && leftDigits == -1)
+//            {
+//                leftDigits = i;
+//                continue;
+//            }
+//
+//            //if (village.charAt(i) == target && leftDigits != -1 && seq) countTarget += 1;
+//
+//
+//            if (tempDigits.containsKey(village.charAt(i)) && leftDigits != -1)
+//            {
+//                String subSt = village.substring(leftDigits, i+1);
+////                if ((Character.getNumericValue(subSt.charAt(0))
+////                        + Character.getNumericValue(subSt.charAt(subSt.length()-1))) == 10
+//                if ( subSt.contains("==="))
+//                    return true;
+//
+//                leftDigits = i;
+//                //countTarget = 0;
+//            }
+//        }
+//
+//
+//        return false;
+//    }
 
 //    private static int findMaxValue(int [] arr, int N)
 //    {

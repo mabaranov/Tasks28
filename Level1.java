@@ -8,74 +8,109 @@ import java.util.Map;
 
 public class Level1 {
 
-    private static void swap(int n1, int n2)
+    public static String Keymaker(int k)
     {
-        int t = n1;
-        n1 = n2;
-        n2 = t;
-    }
-
-    private static boolean priem2(int arr[], int N)
-    {
-        for (int i=0; i<N; i++)
+        int [] doors = new int[k];
+        for (int i=0; i<k; i++)
         {
-            for (int j=i+1; j<N; j++)
-            {
-                if (arr[i] < arr[j]) continue;
+            doors[i] = 1;
+        }
 
-                //swap(arr[i], arr[j]);
-                int t = arr[i];
-                arr[i] = arr[j];
-                arr[j] = t;
-                if (isSorted(arr, N))
-                    return true;
-                //swap(arr[i], arr[j]);
-                t = arr[i];
-                arr[i] = arr[j];
-                arr[j] = t;
+        for (int i=2; i<=k; i++)
+        {
+            if (i == 2)
+            {
+                for (int j=1; j<=k; j++)
+                    if (j%2 == 0 ) doors[j-1] = 0;
+                continue;
+            }
+            for(int j=1; j<=k; j++)
+            {
+                if (j%i == 0)
+                {
+                    if (doors[j-1] == 0) doors[j-1] = 1;
+                    else doors[j-1] = 0;
+                }
             }
         }
-        return false;
-    }
 
-    private static boolean priem1(int arr[], int N)
-    {
-        for (int i=0; i<N/2; i++)
+        String res = "";
+        for (int i=0; i<k; i++)
         {
-            int t = arr[N-i-1];
-            arr[N-i-1] = arr[i];
-            arr[i] = t;
+            res += doors[i];
         }
 
-        if (isSorted(arr, N)) return true;
-
-        return false;
+        return res;
     }
 
-    private static boolean isSorted(int arr[], int N)
-    {
-        for (int i=1; i<N; i++)
-        {
-            if (arr[i] < arr[i-1]) return false;
-        }
-        return true;
-    }
-
-    public static boolean Football(int F[], int N)
-    {
-        int copy1[] = new int[N];
-        int copy2[] = new int[N];
-        for (int i=0; i<N; i++)
-        {
-            copy1[i] = F[i];
-            copy2[i] = F[i];
-        }
-
-        if (priem1(copy1, N)) return true;
-        if (priem2(copy2, N)) return true;
-
-        return false;
-    }
+//    private static void swap(int n1, int n2)
+//    {
+//        int t = n1;
+//        n1 = n2;
+//        n2 = t;
+//    }
+//
+//    private static boolean priem2(int arr[], int N)
+//    {
+//        for (int i=0; i<N; i++)
+//        {
+//            for (int j=i+1; j<N; j++)
+//            {
+//                if (arr[i] < arr[j]) continue;
+//
+//                //swap(arr[i], arr[j]);
+//                int t = arr[i];
+//                arr[i] = arr[j];
+//                arr[j] = t;
+//                if (isSorted(arr, N))
+//                    return true;
+//                //swap(arr[i], arr[j]);
+//                t = arr[i];
+//                arr[i] = arr[j];
+//                arr[j] = t;
+//            }
+//        }
+//        return false;
+//    }
+//
+//    private static boolean priem1(int arr[], int N)
+//    {
+//        for (int i=0; i<N/2; i++)
+//        {
+//            int t = arr[N-i-1];
+//            arr[N-i-1] = arr[i];
+//            arr[i] = t;
+//        }
+//
+//        if (isSorted(arr, N)) return true;
+//
+//        return false;
+//    }
+//
+//    private static boolean isSorted(int arr[], int N)
+//    {
+//        for (int i=1; i<N; i++)
+//        {
+//            if (arr[i] < arr[i-1]) return false;
+//        }
+//        return true;
+//    }
+//
+//    public static boolean Football(int F[], int N)
+//    {
+//        int copy1[] = new int[N];
+//        int copy2[] = new int[N];
+//        for (int i=0; i<N; i++)
+//        {
+//            copy1[i] = F[i];
+//            copy2[i] = F[i];
+//        }
+//
+//        if (priem1(copy1, N)) return true;
+//        if (priem2(copy2, N)) return true;
+//
+//        return false;
+//    }
 
 //    public static boolean white_walkers(String village)
 //    {
